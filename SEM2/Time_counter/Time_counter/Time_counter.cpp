@@ -1,31 +1,31 @@
-﻿#include <iostream>
-#include <chrono>
-
+﻿#include <chrono>
+#include <iostream>
 using namespace std::chrono;
-int function(int n);
-
-steady_clock::duration Time_counter(int f(int), int n) {
-
+template <typename F, typename... Args>
+steady_clock::duration Time_counter(F Function, Args... args)
+{
     steady_clock::time_point t_start = steady_clock::now();
-    f(n);
+    Function(args...);
     steady_clock::time_point t_end = steady_clock::now();
     return t_end - t_start;
 }
+
+
+int plus_fn(int a, int b) { return a + b; }
+int minus_fn(int a, int b) { return a - b; }
+int increment(int& a) { return a++; }
 
 int function(int n) {
     int a = 0;
     for (int i = 0; i < n; i++) {
         a += i;
     }
-    //std::cout << a << "\n"; // release works!
     return a;
 }
 
 int main()
 {
-    steady_clock::duration T = Time_counter(function, 1000000);
-    
-    std::cout << duration_cast<microseconds>(T).count()<<" microseconds";
+    std::cout << duration_cast<microseconds>(Time_counter(plus_fn, 5, 10)).count() << " microseconds\n" << std::endl;
 
-    //std::cout << T.count();
+    std::cout << duration_cast<microseconds>(Time_counter(function, 10000)).count() << " microseconds\n";
 }
