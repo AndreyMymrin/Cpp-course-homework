@@ -192,7 +192,7 @@ std::string core_cal(std::string str) {
 
 std::string order_of_actions(std::string str) {
     std::string new_str;
-
+    static std::string last = "";
     if (search_for_important_point(str) != 0) {
         int important_point = search_for_important_point(str);
         int dash = (search_for_left_action(str, important_point - 1) != 0);
@@ -224,10 +224,9 @@ std::string order_of_actions(std::string str) {
         }
     }
     std::cout << new_str << '\n';
-    if (!is_any_action(new_str))  return new_str;
-    else {
-        order_of_actions(new_str);
-    }
+    if (is_any_action(new_str)) order_of_actions(new_str);
+    else last = new_str;
+    return last;
 }
 
 int caleculator(std::string str) {
@@ -240,18 +239,16 @@ int caleculator(std::string str) {
         data.push_back(str[i]);
     }
 
-    //std::string new_str = 
-    order_of_actions(data);
+    std::string new_str;
     
-    //for (int i = 0; i < search_for_left_bracket(str, search_for_right_bracket(str)) + 1; i++) {
-    //    new_str.push_back(str[i]);
-    //}
-    
-    //new_str = new_str + order_of_actions(data);
-    //for (int i = search_for_right_bracket(str); i < str.length(); i++) {
-    //    new_str.push_back(str[i]);
-    //}
-    //std::cout << new_str;
+    for (int i = 0; i < search_for_left_bracket(str, search_for_right_bracket(str)) + 1; i++) {
+        new_str.push_back(str[i]);
+    }
+    new_str += order_of_actions(data);
+    for (int i = search_for_right_bracket(str); i < str.length(); i++) {
+        new_str.push_back(str[i]);
+    }
+    std::cout << "aaa " <<new_str;
     return 1;
 }
 
