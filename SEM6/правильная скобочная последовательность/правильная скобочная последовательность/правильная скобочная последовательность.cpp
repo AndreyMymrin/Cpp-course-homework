@@ -39,16 +39,19 @@ bool is_cbs(std::string str) {
             data.push_back(str[i]);
         }
     }
+    std::cout << "data " << data << '\n';
     for (int i = 0; i < data.length(); i++) {
         if (is_left(data[i])) list.push_front(data[i]);
         else {
+            if (list.empty()) return 0;
             if (is_pair(list.front(), data[i])) {
                 std::cout << list.front() << ' ' << data[i] << '\n';
                 list.pop_front();
             }
-            else return 0;
+            else {
+                return 0;
+            }
         }
-        //print_list(list);
     }
     std::cout << "list:";
     print_list(list);
@@ -57,7 +60,7 @@ bool is_cbs(std::string str) {
 
 int main()
 {
-    std::string str = "[]({(([]ADADAD))})";
+    std::string str = "[-(2.2+3)+6*2]}-5";
     std::cout << "Answer is : " << is_cbs(str);
     return 1;
 }
