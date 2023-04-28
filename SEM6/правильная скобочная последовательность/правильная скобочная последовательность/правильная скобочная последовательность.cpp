@@ -39,7 +39,7 @@ bool is_cbs(std::string str) {
             data.push_back(str[i]);
         }
     }
-    std::cout << "data " << data << '\n';
+    //std::cout << "data " << data << '\n';
     for (int i = 0; i < data.length(); i++) {
         if (is_left(data[i])) list.push_front(data[i]);
         else {

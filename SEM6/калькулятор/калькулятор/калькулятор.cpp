@@ -290,7 +290,7 @@ std::string caleculator(std::string str) {
 
 int main()
 {
-    std::string str = "[-(2.2+3()+6*2]-5";
+    std::string str = "[-(2.2+3)+6*2]-5";
     std::cout <<"final " << caleculator(str);
     //std::string str2 = "-5*-1";
     //std::cout << order_of_actions(str2);
