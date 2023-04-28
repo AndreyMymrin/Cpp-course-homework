@@ -219,6 +219,7 @@ std::string core_cal(std::string str) {
 }
 
 std::string order_of_actions(std::string str) {
+    if (!is_any_action(str)) return str;
     std::string new_str;
     static std::string last = "";
     if (search_for_important_point(str) != 0) {
@@ -262,38 +263,38 @@ std::string caleculator(std::string str) {
         std::cout << "Wrong CBS\n";
         return std::string("Wrong CBS\n");
     }
+    if (!is_any_bracket(str)) return order_of_actions(str);
+    else {
+        //std::cout << "ggg " << is_any_bracket(str) <<'\n';
+        if (is_pair(str[0], str[str.length() - 1])) caleculator(str.erase(0, 1).erase(str.length() - 2, 1));
+        static std::string cal_final = "";
+        std::string data;
+        for (int i = search_for_left_bracket(str, search_for_right_bracket(str)) + 1; i < search_for_right_bracket(str); i++) {
+            data.push_back(str[i]);
+        }
 
-    if (is_pair(str[0], str[str.length() - 1])) caleculator(str.erase(0, 1).erase(str.length() - 2, 1));
-    static std::string cal_final = "";
-    std::string data;
-    for (int i = search_for_left_bracket(str, search_for_right_bracket(str)) + 1; i < search_for_right_bracket(str); i++) {
-        data.push_back(str[i]);
-    }
+        std::string new_str;
 
-    std::string new_str;
-    
-    for (int i = 0; i < search_for_left_bracket(str, search_for_right_bracket(str)); i++) {
-        new_str.push_back(str[i]);
+        for (int i = 0; i < search_for_left_bracket(str, search_for_right_bracket(str)); i++) {
+            new_str.push_back(str[i]);
+        }
+
+        new_str += order_of_actions(data);
+        for (int i = search_for_right_bracket(str) + 1; i < str.length(); i++) {
+            new_str.push_back(str[i]);
+        }
+        //std::cout << "aaa " << new_str <<'\n';
+        if (is_any_bracket(new_str)) caleculator(new_str);
+        else cal_final = order_of_actions(new_str);
+        return cal_final;
     }
-    //if (str[search_for_left_bracket(str, search_for_right_bracket(str))] == '[') {
-    //    new_str += order_of_actions(data);
-    //}
-    new_str += order_of_actions(data);
-    for (int i = search_for_right_bracket(str)+1; i < str.length(); i++) {
-        new_str.push_back(str[i]);
-    }
-    std::cout << "aaa " <<new_str <<'\n';
-    if (is_any_bracket(new_str)) caleculator(new_str);
-    else cal_final = order_of_actions(new_str);
-    return cal_final;
 }
 
 int main()
 {
-    std::string str = "[-(2.2+3)+6*2]-5";
+    std::string str = "5";
+
     std::cout <<"final " << caleculator(str);
-    //std::string str2 = "-5*-1";
-    //std::cout << order_of_actions(str2);
     return 1;
 }
 
